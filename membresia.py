@@ -3,23 +3,24 @@ from abc import ABC, abstractmethod
 # Clase abstracta base para todas las membresías
 class Membresia(ABC):
     def __init__(self, correo_suscriptor: str, numero_tarjeta: str):
+        
         # Encapsulamiento de los atributos
         self.__correo_suscriptor = correo_suscriptor
         self.__numero_tarjeta = numero_tarjeta
 
+    # Propiedad para acceder al correo del suscriptor
     @property
     def correo_suscriptor(self):
-        # Propiedad para acceder al correo del suscriptor
         return self.__correo_suscriptor
-
+    
+    # Propiedad para acceder al número de tarjeta
     @property
     def numero_tarjeta(self):
-        # Propiedad para acceder al número de tarjeta
         return self.__numero_tarjeta
 
+    # Método abstracto para cambiar de tipo de membresía
     @abstractmethod
     def cambiar_suscripcion(self, nueva_membresia: int) -> "Membresia":
-        # Método abstracto para cambiar de tipo de membresía
         pass
 
 # Interfaz para membresías que pueden ser canceladas
@@ -41,7 +42,7 @@ class Contenido_maxSin_conexion(ABC):
     def incrementar_contenido_sin_conexion(self):
         pass
 
-# Función auxiliar para crear una nueva membresía según el tipo solicitado
+# Función para crear una nueva membresía según el tipo solicitado
 def _crear_nueva_membresia(self, nueva_membresia: int) -> Membresia:
     if nueva_membresia == 1:
         return Basico(self.correo_suscriptor, self.numero_tarjeta)    
@@ -59,8 +60,8 @@ class Gratis(Membresia):
     costo = 0
     dispositivos = 1
 
+    # Permite cambiar a cualquier tipo de membresía válida
     def cambiar_suscripcion(self, nueva_membresia: int) -> Membresia:
-        # Permite cambiar a cualquier tipo de membresía válida
         if nueva_membresia in [1, 2, 3, 4]:
             return _crear_nueva_membresia(self, nueva_membresia)
         return self
@@ -70,14 +71,13 @@ class Basico(Membresia):
     costo = 3000
     dispositivos = 2
 
+    # Permite cambiar solo a Familiar, Sin_conexion o Pro
     def cambiar_suscripcion(self, nueva_membresia: int) -> Membresia:
-        # Permite cambiar solo a Familiar, Sin_conexion o Pro
         if nueva_membresia in [2, 3, 4]:
             return _crear_nueva_membresia(self, nueva_membresia)
         return self
-    
+    # Cancela la suscripción y retorna una membresía Gratis
     def cancelar_suscripcion(self):
-        # Cancela la suscripción y retorna una membresía Gratis
         return Gratis(self.correo_suscriptor, self.numero_tarjeta)
 
 # Clase para membresía Familiar
@@ -93,19 +93,18 @@ class Familiar(Membresia, Control_parental):
         @property
         def dias_regalo(self):
             return self.__dias_regalo
-
+    # Permite cambiar solo a Basico, Sin_conexion o Pro
     def cambiar_suscripcion(self, nueva_membresia: int) -> Membresia:
-        # Permite cambiar solo a Basico, Sin_conexion o Pro
         if nueva_membresia in [1, 3, 4]:
             return _crear_nueva_membresia(self, nueva_membresia)
         return self
     
+    # Método declarado, lógica pendiente
     def modificar_control_parental(self):
-        # Método declarado, lógica pendiente
         pass
     
+    # Cancela la suscripción y retorna una membresía Gratis
     def cancelar_suscripcion(self):
-        # Cancela la suscripción y retorna una membresía Gratis
         return Gratis(self.correo_suscriptor, self.numero_tarjeta)
 
 # Clase para membresía Sin Conexión
@@ -117,23 +116,23 @@ class Sin_conexion(Membresia, Contenido_maxSin_conexion):
         super().__init__(correo_suscriptor, numero_tarjeta)
         self.__dias_regalo = 7  # Días de regalo al crear la membresía
     
+    # Propiedad para acceder a los días de regalo
     @property    
     def dias_regalo(self):
-        # Propiedad para acceder a los días de regalo
         return self.__dias_regalo
-
+    
+    # Permite cambiar solo a Basico, Familiar o Pro
     def cambiar_suscripcion(self, nueva_membresia: int) -> Membresia:
-        # Permite cambiar solo a Basico, Familiar o Pro
         if nueva_membresia in [1, 2, 4]:
             return _crear_nueva_membresia(self, nueva_membresia)
         return self
     
+    # Método declarado, lógica pendiente
     def incrementar_contenido_sin_conexion(self):
-        # Método declarado, lógica pendiente
         pass
     
+    # Cancela la suscripción y retorna una membresía Gratis
     def cancelar_suscripcion(self):
-        # Cancela la suscripción y retorna una membresía Gratis
         return Gratis(self.correo_suscriptor, self.numero_tarjeta)
 
 # Clase para membresía Pro
@@ -144,27 +143,27 @@ class Pro(Membresia, Control_parental, Contenido_maxSin_conexion):
     def __init__(self, correo_suscriptor: str, numero_tarjeta: str):
         super().__init__(correo_suscriptor, numero_tarjeta)
         self.__dias_regalo = 15  # Días de regalo al crear la membresía
-        
+    
+    # Propiedad para acceder a los días de regalo    
     @property
     def dias_regalo(self):
-        # Propiedad para acceder a los días de regalo
         return self.__dias_regalo
 
+    # Permite cambiar solo a Basico, Familiar o Sin_conexion
     def cambiar_suscripcion(self, nueva_membresia: int) -> Membresia:
-        # Permite cambiar solo a Basico, Familiar o Sin_conexion
         if nueva_membresia in [1, 2, 3]:
             return _crear_nueva_membresia(self, nueva_membresia)
         return self
     
+    # Método declarado, lógica pendiente
     def modificar_control_parental(self):
-        # Método declarado, lógica pendiente
         pass
     
+    # Método declarado, lógica pendiente
     def incrementar_contenido_sin_conexion(self):
-        # Método declarado, lógica pendiente
         pass
     
+    # Cancela la suscripción y retorna una membresía Gratis
     def cancelar_suscripcion(self):
-        # Cancela la suscripción y retorna una membresía Gratis
         return Gratis(self.correo_suscriptor, self.numero_tarjeta)
 
