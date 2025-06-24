@@ -1,4 +1,4 @@
-##Desafio Membresia##
+## Desafio Membresia ##
 
 Se te ha solicitado desarrollar la estructura de clases que permita crear membresías de los usuarios suscriptores. Existen 5 tipos de membresía: Gratis, Básica,
 Familiar, Sin Conexión y Pro.
